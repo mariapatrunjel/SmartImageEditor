@@ -157,48 +157,31 @@ JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessi
 
 }
 
-JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessing_changeContrastAndBrightness
-        (JNIEnv *, jclass, jlong addrRgba, jlong addrResultImage, jfloat alpha, jfloat beta)
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessing_gammaCorrection
+        (JNIEnv *, jclass, jlong addrRgba, jlong addrResultImage, jfloat gamma)
 {
     Mat &mRgba = *(Mat *) addrRgba;
     Mat &resultImage = *(Mat *) addrResultImage;
+    unsigned char lut[256];
+    for (int i = 0; i < 256; i++)
+    {
+
+        lut[i] = saturate_cast<uchar>(pow((float)( i / 255.0),gamma ) * 255.0f);
+        if(lut[i]<0)
+            lut[i]=0;
+        if(lut[i]>255)
+            lut[i]=255;
+
+    }
     for (int i = 0; i < mRgba.rows; i++) {
         for (int j = 0; j < mRgba.cols; j++) {
-            int valueRed    = mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 0] * alpha + beta;
-            int valueGreen  = mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 1] * alpha + beta;
-            int valueBlue   = mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 2] * alpha + beta;
-
-            if(valueRed<256)
-            {
-                if(valueRed>0)
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 0] = valueRed;
-                else
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 0] = 0;
-            }
-            else
-                resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 0] = 255;
-
-            if(valueGreen<256)
-            {
-                if(valueGreen>0)
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 1] = valueGreen;
-                else
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 1] = 0;
-            }
-            else
-                resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 1] = 255;
-
-            if(valueBlue<256)
-            {
-                if(valueBlue>0)
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 2] = valueBlue;
-                else
-                    resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 2] = 0;
-            }
-            else
-                resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 2] = 255;
+            resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 0] = lut[mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 0]];
+            resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 1] = lut[mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 1]];
+            resultImage.data[resultImage.step[0] * i + resultImage.step[1] * j + 2] = lut[mRgba.data[mRgba.step[0] * i + mRgba.step[1] * j + 2]];
         }
+
     }
+
 }
 
 

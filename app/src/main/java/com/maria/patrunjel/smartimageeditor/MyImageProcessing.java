@@ -12,7 +12,7 @@ class MyImageProcessing {
      public static native void blueFilter(long addrRgba, long addrResultImage);
      public static native void binarizationFilter(long addrRgba, long addrResultImage);
      public static native void changeRGBChannels(long addrRgba, long addrResultImage, int red,int green,int blue);
-     public static native void changeContrastAndBrightness(long addrRgba, long addrResultImage, float alpha , float beta);
+     public static native void gammaCorrection(long addrRgba, long addrResultImage, float gamma);
 
 
 }

@@ -109,6 +109,8 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     @Override
     public void onCameraViewStopped() {
         mRgba.release();
+        resultImage.release();
+        newImage.release();
     }
 
     @Override
@@ -138,7 +140,6 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         MediaActionSound sound = new MediaActionSound();
         sound.play(MediaActionSound.SHUTTER_CLICK);
         SaveImage.saveImageToExternalStorage(this,processImage(mRgba),getResources().getConfiguration().orientation,cameraId);
-
     }
 
     public void onClickGrayFilter(View view) {
@@ -193,37 +194,36 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     }
 
     public Mat processImage(Mat image){
-        newImage = image.clone();
-        resultImage = image.clone();
-        MyImageProcessing.changeContrastAndBrightness(image.getNativeObjAddr(),newImage.getNativeObjAddr(),brightness,contrast);
-        MyImageProcessing.changeRGBChannels(newImage.getNativeObjAddr(),newImage.getNativeObjAddr(),redValue,greenValue,blueValue);
+
+        MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),redValue,greenValue,blueValue);
+        MyImageProcessing.gammaCorrection(image.getNativeObjAddr(),image.getNativeObjAddr(),brightness);
         switch (currentFilter) {
             case "Gray":
-               // Imgproc.cvtColor(newImage,resultImage, Imgproc.COLOR_BGR2GRAY);
+
                 break;
             case "Bright":
-                MyImageProcessing.brightFilter(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr());
+                MyImageProcessing.brightFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
                 break;
             case "Dark":
-                MyImageProcessing.darkFilter(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr());
+                MyImageProcessing.darkFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
                 break;
             case "Binarization":
-                MyImageProcessing.changeRGBChannels(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr(),40,0,40);
+                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),40,0,40);
                 break;
             case "Red":
-                MyImageProcessing.changeRGBChannels(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr(),80,0,0);
+                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),80,0,0);
                 break;
             case "Green":
-                MyImageProcessing.changeRGBChannels(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr(),0,80,0);
+                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,80,0);
                 break;
             case "Blue":
-                MyImageProcessing.changeRGBChannels(newImage.getNativeObjAddr(),resultImage.getNativeObjAddr(),0,0,80);
+                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,0,80);
                 break;
             default:
-                return newImage;
+                return image;
 
         }
-        return resultImage;
+        return image;
     }
 
     public void onSwapCamera(View view) {

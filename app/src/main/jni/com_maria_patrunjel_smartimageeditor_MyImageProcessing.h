@@ -69,11 +69,11 @@ JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessi
 
 /*
  * Class:     com_maria_patrunjel_smartimageeditor_MyImageProcessing
- * Method:    changeContrastAndBrightness
- * Signature: (JJFF)V
+ * Method:    gammaCorrection
+ * Signature: (JJF)V
  */
-JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessing_changeContrastAndBrightness
-  (JNIEnv *, jclass, jlong, jlong, jfloat, jfloat);
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_MyImageProcessing_gammaCorrection
+  (JNIEnv *, jclass, jlong, jlong, jfloat);
 
 #ifdef __cplusplus
 }

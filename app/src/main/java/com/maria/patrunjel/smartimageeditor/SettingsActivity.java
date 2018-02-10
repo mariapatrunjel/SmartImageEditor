@@ -10,7 +10,6 @@ public class SettingsActivity extends Activity {
 
     private Integer redValue,greenValue,blueValue,contrast;
     private Float brightness;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,8 @@ public class SettingsActivity extends Activity {
         greenBar.setProgress(greenValue+25);
         blueBar.setProgress(blueValue+25);
         contrastBar.setProgress(contrast+100);
+
+
         brightnessBar.setProgress((int)((brightness+0.1)*10));
 
         TextView red = (TextView)findViewById(R.id.redValue);

@@ -20,15 +20,13 @@
         android:layout_marginTop="58dp"
         app:layout_constraintLeft_toRightOf="@+id/redBar"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="6dp"
-        app:layout_constraintRight_toRightOf="parent"/>
+        />
 
     <TextView
         android:id="@+id/blueValue"
         android:layout_width="40dp"
         android:layout_height="33dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="6dp"
         android:layout_marginTop="10dp"
         android:text="B"
         android:textAlignment="center"
@@ -36,7 +34,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/blueBar"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greenValue"/>
 
     <TextView
@@ -44,7 +41,6 @@
         android:layout_width="40dp"
         android:layout_height="33dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="6dp"
         android:layout_marginTop="8dp"
         android:text="G"
         android:textAlignment="center"
@@ -52,7 +48,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/greenBar"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/redValue"/>
 
     <TextView
@@ -102,7 +97,7 @@
         android:layout_width="300dp"
         android:layout_height="33dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="58dp"
         android:backgroundTint="@android:color/holo_red_dark"
         android:max="50"
         android:progressTint="@android:color/holo_red_dark"
@@ -164,72 +159,46 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textContrast"
-        android:layout_width="93dp"
-        android:layout_height="22dp"
-        android:text="Contrast"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/blueBar"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"/>
-
-    <SeekBar
-        android:id="@+id/contrastBar"
-        android:layout_width="300dp"
-        android:layout_height="33dp"
-        android:max="200"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="6dp"
-        app:layout_constraintTop_toBottomOf="@+id/textContrast"/>
-
-    <TextView
         android:id="@+id/textBrightness"
-        android:layout_width="94dp"
-        android:layout_height="22dp"
+        android:layout_width="174dp"
+        android:layout_height="17dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Brightness"
+        android:layout_marginTop="30dp"
+        android:text="Gamma Correction"
+        android:textColor="@android:color/black"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contrastBar"/>
+        app:layout_constraintTop_toBottomOf="@+id/blueBar"/>
 
     <SeekBar
         android:id="@+id/brightnessBar"
         android:layout_width="300dp"
         android:layout_height="33dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/black"
         android:max="40"
+        android:thumbTint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textBrightness"
-        app:layout_constraintVertical_bias="0.011"
-        />
+        app:layout_constraintVertical_bias="0.0"/>
 
     <Button
         android:id="@+id/reset"
         android:layout_width="122dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginLeft="131dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccent"
         android:onClick="onClickResetButton"
         android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brightnessBar"
-        app:layout_constraintVertical_bias="0.057"/>
+        app:layout_constraintTop_toBottomOf="@+id/brightnessBar"/>
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"

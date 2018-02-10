@@ -7,7 +7,7 @@ public class RetainedFragment extends Fragment
 {
     // data object we want to retain
     private String filter;
-    private Integer redValue,greenValue,blueValue,contrast;
+    private Integer redValue,greenValue,blueValue;
     private Float brightness;
     private int cameraId;
     private Boolean flashlightOn;
@@ -58,14 +58,6 @@ public class RetainedFragment extends Fragment
 
     public void setBrightness(Float brightness) {
         this.brightness = brightness;
-    }
-
-    public Integer getContrast() {
-        return contrast;
-    }
-
-    public void setContrast(Integer contrast) {
-        this.contrast = contrast;
     }
 
     public Integer getCameraId() {

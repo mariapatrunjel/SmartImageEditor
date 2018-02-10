@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 public class SettingsActivity extends Activity {
 
-    private Integer redValue,greenValue,blueValue,contrast;
+    private Integer redValue,greenValue,blueValue;
     private Float brightness;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +22,15 @@ public class SettingsActivity extends Activity {
         greenValue = intent.getIntExtra("green",0)/10;
         blueValue = intent.getIntExtra("blue",0)/10;
         brightness =  intent.getFloatExtra("brightness",1.0f);
-        contrast =  intent.getIntExtra("contrast",0);
-
 
         SeekBar redBar = (SeekBar)findViewById(R.id.redBar);
         SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
         SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
         SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
-        SeekBar contrastBar = (SeekBar)findViewById(R.id.contrastBar);
 
         redBar.setProgress(redValue+25);
         greenBar.setProgress(greenValue+25);
         blueBar.setProgress(blueValue+25);
-        contrastBar.setProgress(contrast+100);
-
 
         brightnessBar.setProgress((int)((brightness+0.1)*10));
 
@@ -41,9 +38,9 @@ public class SettingsActivity extends Activity {
         TextView green = (TextView)findViewById(R.id.greenValue);
         TextView blue = (TextView)findViewById(R.id.blueValue);
 
-        red.setText(Integer.toString(redValue*10));
-        green.setText(Integer.toString(greenValue*10));
-        blue.setText(Integer.toString(blueValue*10));
+        red.setText(String.format(Locale.ENGLISH,"%d",redValue*10));
+        green.setText(String.format(Locale.ENGLISH,"%d",greenValue*10));
+        blue.setText(String.format(Locale.ENGLISH,"%d",blueValue*10));
 
         setSeekBarsListeners();
 
@@ -58,19 +55,16 @@ public class SettingsActivity extends Activity {
         greenValue = 0;
         blueValue = 0;
         brightness = 1.0f;
-        contrast = 0;
 
         SeekBar redBar = (SeekBar)findViewById(R.id.redBar);
         SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
         SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
         SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
-        SeekBar contrastBar = (SeekBar)findViewById(R.id.contrastBar);
 
         redBar.setProgress(redValue+25);
         greenBar.setProgress(greenValue+25);
         blueBar.setProgress(blueValue+25);
-        contrastBar.setProgress(contrast+100);
-        brightnessBar.setProgress((int)((brightness+0.1)*10));
+        brightnessBar.setProgress((int)((brightness+0.1f)*10));
     }
 
     @Override
@@ -81,7 +75,6 @@ public class SettingsActivity extends Activity {
         data.putExtra("red",redValue*10);
         data.putExtra("green",greenValue*10);
         data.putExtra("blue",blueValue*10);
-        data.putExtra("contrast",contrast);
         data.putExtra("brightness",brightness);
 
         setResult(RESULT_OK, data);
@@ -94,14 +87,13 @@ public class SettingsActivity extends Activity {
         SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
         SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
         SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
-        SeekBar contrastBar = (SeekBar)findViewById(R.id.contrastBar);
 
         redBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 redValue = progress - 25;
                 TextView red = (TextView) findViewById(R.id.redValue);
-                red.setText(Integer.toString(redValue * 10));
+                red.setText(String.format(Locale.ENGLISH,"%d",redValue*10));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -118,7 +110,7 @@ public class SettingsActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 greenValue =progress-25;
                 TextView green = (TextView)findViewById(R.id.greenValue);
-                green.setText(Integer.toString(greenValue*10));
+                green.setText(String.format(Locale.ENGLISH,"%d",greenValue*10));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -137,7 +129,7 @@ public class SettingsActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 blueValue =progress-25;
                 TextView blue = (TextView)findViewById(R.id.blueValue);
-                blue.setText(Integer.toString(blueValue*10));
+                blue.setText(String.format(Locale.ENGLISH,"%d",blueValue*10));
 
             }
 
@@ -169,22 +161,6 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        contrastBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                contrast= progress-100;
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-
-
-            }
-        });
 
     }
 

@@ -14,7 +14,7 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     private JavaCameraView javaCameraView;
     private Mat mRgba,newImage ,resultImage;
     private String currentFilter = "Normal";
-    private Integer redValue=0, greenValue = 0,blueValue = 0, contrast = 0;
+    private Integer redValue=0, greenValue = 0,blueValue = 0;
     private Float brightness = 1.0f;
     private int cameraId = 0;
     private Boolean flashlightOn = false;
@@ -58,7 +58,6 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
             mRetainedFragment.setGreenValue(greenValue);
             mRetainedFragment.setBlueValue(blueValue);
             mRetainedFragment.setBrightness(brightness);
-            mRetainedFragment.setContrast(contrast);
             mRetainedFragment.setCameraId(cameraId);
             mRetainedFragment.setFlashlightOn(flashlightOn);
         }
@@ -67,7 +66,6 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         redValue = mRetainedFragment.getRedValue();
         greenValue = mRetainedFragment.getGreenValue();
         blueValue = mRetainedFragment.getBlueValue();
-        contrast = mRetainedFragment.getContrast();
         brightness = mRetainedFragment.getBrightness();
         cameraId = mRetainedFragment.getCameraId();
         flashlightOn = mRetainedFragment.getFlashlightOn();
@@ -126,12 +124,10 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         greenValue = intent.getIntExtra("green",0);
         blueValue = intent.getIntExtra("blue",0);
         brightness =  intent.getFloatExtra("brightness",1.0f);
-        contrast =  intent.getIntExtra("contrast",0);
 
         mRetainedFragment.setRedValue(redValue);
         mRetainedFragment.setGreenValue(greenValue);
         mRetainedFragment.setBlueValue(blueValue);
-        mRetainedFragment.setContrast(contrast);
         mRetainedFragment.setBrightness(brightness);
 
     }
@@ -187,7 +183,6 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         intent.putExtra("red",redValue);
         intent.putExtra("green",greenValue);
         intent.putExtra("blue",blueValue);
-        intent.putExtra("contrast",contrast);
         intent.putExtra("brightness",brightness);
         startActivityForResult(intent,0);
 
@@ -225,7 +220,6 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
         }
         return image;
     }
-
     public void onSwapCamera(View view) {
         cameraId = cameraId^1;
         mRetainedFragment.setCameraId(cameraId);
@@ -235,9 +229,9 @@ public class MainActivity extends Activity implements CameraBridgeViewBase.CvCam
     }
 
     public void onFlashlight(View view) {
-        flashlightOn = flashlightOn^true;
+        flashlightOn = !flashlightOn;
         mRetainedFragment.setFlashlightOn(flashlightOn);
-        if(flashlightOn == true)
+        if(flashlightOn)
             javaCameraView.turnOnTheFlash();
         else
             javaCameraView.turnOffTheFlash();

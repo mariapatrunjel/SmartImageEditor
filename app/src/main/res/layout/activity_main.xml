@@ -1,243 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    tools:context="com.maria.patrunjel.smartimageeditor.MainActivity"
-    >
-
-    <org.opencv.android.JavaCameraView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/java_camera_view"/>
-
+    android:background="@color/colorPrimary"
+    tools:context="com.maria.patrunjel.smartimageeditor.MainActivity">
 
     <ImageButton
-        android:id="@+id/settingsActivity"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/cameraActivityButton"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onClickSettingsActivity"
-        android:scaleType="fitXY"
-        android:src="@drawable/hamburger"
+        android:background="@color/colorPrimary"
         android:contentDescription="@null"
+        android:cropToPadding="false"
+        android:onClick="onCameraActivityClicked"
+        android:scaleType="fitXY"
+        android:src="@drawable/camera_activity_photo"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/imageGalleryButton"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:background="#00000000"
+        android:contentDescription="@null"
+        android:cropToPadding="false"
+        android:onClick="onImageGalleryClicked"
+        android:scaleType="fitXY"
+        android:src="@drawable/gallery"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/cameraActivityButton"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintHorizontal_bias="1.0"/>
 
-    <ImageButton
-        android:id="@+id/swapCamera"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onSwapCamera"
-        android:scaleType="fitXY"
-        android:src="@drawable/reversecamera"
-        android:contentDescription="@null"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/settingsActivity"/>
-
-    <ImageButton
-        android:id="@+id/flashlight"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onFlashlight"
-        android:scaleType="fitXY"
-        android:src="@drawable/flashlight"
-        android:contentDescription="@null"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/swapCamera"/>
-
-    <ImageButton
-        android:onClick="onTakePicture"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:id="@+id/takePictureButton"
-        android:src="@drawable/camera"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:background="#00000000"
-        android:scaleType="fitXY"
-        android:layout_marginBottom="15dp"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
-        android:contentDescription="@null"/>
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        android:fillViewport="true"
-        android:id="@+id/scrollView"
-        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/background_light"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/cameraActivityButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.981">
-
-            <ImageButton
-                android:id="@+id/normalImageButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickNormal"
-                android:scaleType="fitXY"
-                android:src="@drawable/normal"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/binarizationFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickBinarizationFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/binarizationfilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/redFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickRedFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/redfilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/greenFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickGreenFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/greenfilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/blueFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickBlueFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/bluefilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/grayFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickGrayFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/grayfilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/brightFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickBrightFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/brightfilter"
-                android:contentDescription="@null"/>
-
-            <ImageButton
-                android:id="@+id/darkFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:cropToPadding="false"
-                android:onClick="onClickDarkFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/darkfilter"
-                android:contentDescription="@null"/>
-
-        </LinearLayout>
-    </HorizontalScrollView>
 </android.support.constraint.ConstraintLayout>

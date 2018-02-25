@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false"/>
@@ -48,11 +49,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CameraActivity"/>
         </activity>
-        <activity android:name=".CameraActivity"
+        <activity
+            android:name=".CameraActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".ShowPhotoActivity"
+                  android:parentActivityName=".CameraActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CameraActivity"/>
         </activity>
     </application>
 

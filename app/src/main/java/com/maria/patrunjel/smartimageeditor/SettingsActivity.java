@@ -46,10 +46,6 @@ public class SettingsActivity extends Activity {
 
     }
 
-    public void onClickBackButton(View view){
-        finish();
-    }
-
     public void onClickResetButton(View view){
         redValue = 0;
         greenValue = 0;

@@ -1,4 +1,4 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.random.classes;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;

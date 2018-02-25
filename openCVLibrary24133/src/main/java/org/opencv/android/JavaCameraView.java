@@ -18,7 +18,6 @@ import android.hardware.Camera.PreviewCallback;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
@@ -372,72 +371,4 @@ public class JavaCameraView extends CameraBridgeViewBase implements PreviewCallb
             Log.d(TAG, "Finish processing thread");
         }
     }
-
-    //MyCode
-    public void turnOffTheFlash() {
-        Camera.Parameters params = mCamera.getParameters();
-        params.setFlashMode(params.FLASH_MODE_OFF);
-        mCamera.setParameters(params);
-    }
-
-    public void turnOnTheFlash() {
-        Camera.Parameters params = mCamera.getParameters();
-        params.setFlashMode(params.FLASH_MODE_TORCH);
-        mCamera.setParameters(params);
-    }
-/*
-    public void takePicture( Context contextParam,int orientationParam, int cameraIdParam) {
-        Log.i(TAG, "Tacking picture");
-        final int orientation = orientationParam;
-        final int cameraId = cameraIdParam;
-        final Context context = contextParam;
-        Camera.PictureCallback callback = new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
-                Log.i(TAG, "Saving a bitmap to file");
-                Bitmap finalBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        if(cameraId == 0 )
-                            finalBitmap = rotateBitmap(finalBitmap, 90);
-                        else
-                            finalBitmap = rotateBitmap(finalBitmap, -90);
-                    }
-
-                    String root = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM;
-                    File myDir = new File(root + "/SmartImageEditor");
-                    myDir.mkdirs();
-                    Date currentTime = Calendar.getInstance().getTime();
-                    String fName = "Image-" + currentTime.toString() + ".jpg";
-                    File file = new File(myDir, fName);
-                    if (file.exists())
-                        file.delete();
-                    try {
-                        FileOutputStream out = new FileOutputStream(file);
-                        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                        out.flush();
-                        out.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // Tell the media scanner about the new file so that it is
-                    // immediately available to the user.
-                    MediaScannerConnection.scanFile(context, new String[]{file.toString()}, null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.i("ExternalStorage", "Scanned " + path + ":");
-                                    Log.i("ExternalStorage", "-> uri=" + uri);
-                                }
-                            });
-
-            }
-        };
-
-        mCamera.takePicture(null, null, callback);
-    }
-    private static Bitmap rotateBitmap(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    }
-    */
 }

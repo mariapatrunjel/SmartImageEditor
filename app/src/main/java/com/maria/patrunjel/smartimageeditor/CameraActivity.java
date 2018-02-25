@@ -3,20 +3,18 @@ package com.maria.patrunjel.smartimageeditor;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.JavaCameraView;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 public class CameraActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2 {
-    private JavaCameraView javaCameraView;
+    private MyJavaCameraView javaCameraView;
     private Mat mRgba;
     private String currentFilter = "Normal";
     private Integer redValue=0, greenValue = 0,blueValue = 0;
@@ -24,8 +22,8 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     private int cameraId = 0;
     private Boolean flashlightOn = false;
 
-    private static final String TAG_RETAINED_FRAGMENT = "RetainedFragment";
-    private RetainedFragment mRetainedFragment;
+    private static final String TAG_RETAINED_FRAGMENT = "CameraSettingsRetainedFragment";
+    private CameraSettingsRetainedFragment mRetainedFragment;
 
     BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
         @Override
@@ -50,12 +48,12 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
-        mRetainedFragment = (RetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
+        mRetainedFragment = (CameraSettingsRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
 
         // create the fragment and data the first time
         if (mRetainedFragment == null) {
             // add the fragment
-            mRetainedFragment = new RetainedFragment();
+            mRetainedFragment = new CameraSettingsRetainedFragment();
             fm.beginTransaction().add(mRetainedFragment, TAG_RETAINED_FRAGMENT).commit();
             // load data from a data source or perform any calculation
             mRetainedFragment.setFilter(currentFilter);
@@ -75,7 +73,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         cameraId = mRetainedFragment.getCameraId();
         flashlightOn = mRetainedFragment.getFlashlightOn();
 
-        javaCameraView = (JavaCameraView) findViewById(R.id.java_camera_view);
+        javaCameraView = (MyJavaCameraView) findViewById(R.id.java_camera_view);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
         javaCameraView.setCameraIndex(cameraId);
@@ -135,9 +133,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     }
 
     public void onTakePicture(View view) {
-        MediaActionSound sound = new MediaActionSound();
-        sound.play(MediaActionSound.SHUTTER_CLICK);
-        SaveImage.saveImageToExternalStorage(this,processImage(mRgba),getResources().getConfiguration().orientation,cameraId);
+        javaCameraView.takePicture(this,mRgba,cameraId);
     }
 
     public void onClickGrayFilter(View view) {
@@ -196,7 +192,6 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         MyImageProcessing.gammaCorrection(image.getNativeObjAddr(),image.getNativeObjAddr(),brightness);
         switch (currentFilter) {
             case "Gray":
-
                 break;
             case "Bright":
                 MyImageProcessing.brightFilter(image.getNativeObjAddr(),image.getNativeObjAddr());

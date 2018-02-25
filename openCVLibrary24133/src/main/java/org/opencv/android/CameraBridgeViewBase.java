@@ -3,7 +3,6 @@ package org.opencv.android;
 import java.util.List;
 
 import org.opencv.R;
-import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
@@ -136,6 +135,7 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
          * TODO: pass the parameters specifying the format of the frame (BPP, YUV or RGB and etc)
          */
         public Mat onCameraFrame(CvCameraViewFrame inputFrame);
+
     };
 
     protected class CvCameraViewListenerAdapter implements CvCameraViewListener2  {
@@ -532,7 +532,6 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 
         return new Size(calcWidth, calcHeight);
     }
-
 
 
 

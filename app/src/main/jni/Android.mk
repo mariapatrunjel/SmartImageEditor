@@ -8,7 +8,7 @@ OPENCV_INSTALL_MODULES:=on
 OPENCV_LIB_TYPE:=SHARED
 include ${OPENCVROOT}/sdk/native/jni/OpenCV.mk
 
-LOCAL_SRC_FILES := com_maria_patrunjel_smartimageeditor_MyImageProcessing.cpp
+LOCAL_SRC_FILES := com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing.cpp
 LOCAL_MODULE :=  MyOpencvLibs
 
 include $(BUILD_SHARED_LIBRARY)

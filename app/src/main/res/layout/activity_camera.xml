@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.maria.patrunjel.smartimageeditor.CameraActivity">
+    tools:context="com.maria.patrunjel.smartimageeditor.activities.CameraActivity">
 
 
-    <com.maria.patrunjel.smartimageeditor.MyJavaCameraView
+    <com.maria.patrunjel.smartimageeditor.utils.MyJavaCameraView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/java_camera_view"/>
@@ -52,7 +52,7 @@
         android:cropToPadding="false"
         android:onClick="onSwapCamera"
         android:scaleType="fitXY"
-        android:src="@drawable/reversecamera"
+        android:src="@drawable/reverse_camera"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -74,7 +74,7 @@
         android:cropToPadding="false"
         android:onClick="onFlashlight"
         android:scaleType="fitXY"
-        android:src="@drawable/flashlight"
+        android:src="@drawable/flash_light_off"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -129,7 +129,7 @@
             app:layout_constraintVertical_bias="0.981">
 
             <ImageButton
-                android:id="@+id/normalImageButton"
+                android:id="@+id/normalFilterButton"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
@@ -138,12 +138,12 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickNormal"
+                android:onClick="onNormalFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/normal"/>
+                android:src="@drawable/normal_filter"/>
 
             <ImageButton
-                android:id="@+id/binarizationFilterButton"
+                android:id="@+id/sepiaFilterButton"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
@@ -152,9 +152,9 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickBinarizationFilter"
+                android:onClick="onSepiaFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/binarizationfilter"/>
+                android:src="@drawable/sepia_filter"/>
 
             <ImageButton
                 android:id="@+id/redFilterButton"
@@ -166,9 +166,9 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickRedFilter"
+                android:onClick="onRedFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/redfilter"/>
+                android:src="@drawable/red_filter"/>
 
             <ImageButton
                 android:id="@+id/greenFilterButton"
@@ -180,9 +180,9 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickGreenFilter"
+                android:onClick="onGreenFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/greenfilter"/>
+                android:src="@drawable/green_filter"/>
 
             <ImageButton
                 android:id="@+id/blueFilterButton"
@@ -194,12 +194,12 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickBlueFilter"
+                android:onClick="onBlueFilterClicked"
                 android:scaleType="fitXY"
                 android:src="@drawable/bluefilter"/>
 
             <ImageButton
-                android:id="@+id/grayFilterButton"
+                android:id="@+id/magentaFilterButton"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
@@ -208,37 +208,10 @@
                 android:background="#00000000"
                 android:contentDescription="@null"
                 android:cropToPadding="false"
-                android:onClick="onClickGrayFilter"
+                android:onClick="onMagentaFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/grayfilter"/>
+                android:src="@drawable/magenta_filter"/>
 
-            <ImageButton
-                android:id="@+id/brightFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:contentDescription="@null"
-                android:cropToPadding="false"
-                android:onClick="onClickBrightFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/brightfilter"/>
-
-            <ImageButton
-                android:id="@+id/darkFilterButton"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:background="#00000000"
-                android:contentDescription="@null"
-                android:cropToPadding="false"
-                android:onClick="onClickDarkFilter"
-                android:scaleType="fitXY"
-                android:src="@drawable/darkfilter"/>
 
         </LinearLayout>
     </HorizontalScrollView>

@@ -1,8 +1,9 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -54,7 +55,11 @@ public class Utils {
 
     }
 
-    public static Bitmap matToFinalBitmap(Mat image, int orientation , int cameraId){
+     /*public static Bitmap byteToFinalBitmap(byte[] data, int orientation , int cameraId){
+
+        Bitmap finalBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        */
+     public static Bitmap matToFinalBitmap(Mat image, int orientation , int cameraId){
         Bitmap finalBitmap = Bitmap.createBitmap(image.width(), image.height(), Bitmap.Config.ARGB_8888);
         org.opencv.android.Utils.matToBitmap(image, finalBitmap);
 

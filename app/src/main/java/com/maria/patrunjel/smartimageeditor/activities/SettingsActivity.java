@@ -1,10 +1,12 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.maria.patrunjel.smartimageeditor.R;
 
 import java.util.Locale;
 

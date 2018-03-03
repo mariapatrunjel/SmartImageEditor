@@ -1,11 +1,20 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageButton;
+
+import com.maria.patrunjel.smartimageeditor.retained.fragments.CameraSettingsRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.utils.MyImageProcessing;
+import com.maria.patrunjel.smartimageeditor.utils.MyJavaCameraView;
+import com.maria.patrunjel.smartimageeditor.R;
+import com.maria.patrunjel.smartimageeditor.utils.Photo;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
@@ -14,13 +23,20 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 public class CameraActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2 {
+
+    private static final int FLASH_MODE_OFF = 0;
+    private static final int FLASH_MODE_ON = 1;
+    private static final int FLASH_MODE_AUTO = 2;
+
     private MyJavaCameraView javaCameraView;
     private Mat mRgba;
     private String currentFilter = "Normal";
     private Integer redValue=0, greenValue = 0,blueValue = 0;
     private Float brightness = 1.0f;
     private int cameraId = 0;
-    private Boolean flashlightOn = false;
+    private int flashMode = FLASH_MODE_OFF;
+
+
 
     private static final String TAG_RETAINED_FRAGMENT = "CameraSettingsRetainedFragment";
     private CameraSettingsRetainedFragment mRetainedFragment;
@@ -62,7 +78,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
             mRetainedFragment.setBlueValue(blueValue);
             mRetainedFragment.setBrightness(brightness);
             mRetainedFragment.setCameraId(cameraId);
-            mRetainedFragment.setFlashlightOn(flashlightOn);
+            mRetainedFragment.setFlashMode(flashMode);
         }
 
         currentFilter = mRetainedFragment.getFilter();
@@ -71,12 +87,14 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         blueValue = mRetainedFragment.getBlueValue();
         brightness = mRetainedFragment.getBrightness();
         cameraId = mRetainedFragment.getCameraId();
-        flashlightOn = mRetainedFragment.getFlashlightOn();
+        flashMode = mRetainedFragment.getFlashMode();
 
         javaCameraView = (MyJavaCameraView) findViewById(R.id.java_camera_view);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
         javaCameraView.setCameraIndex(cameraId);
+
+        //setFlashModeImage();
     }
 
     @Override
@@ -103,7 +121,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     @Override
     public void onCameraViewStarted(int width, int height) {
         mRgba = new Mat(height, width, CvType.CV_8UC4);
-
+        setFlashModeImage();
     }
 
     @Override
@@ -115,7 +133,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
 
         mRgba = inputFrame.rgba();
-        return processImage(mRgba);
+        return MyImageProcessing.processImage(mRgba,currentFilter,redValue,greenValue,blueValue,brightness);
     }
 
     @Override
@@ -133,47 +151,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     }
 
     public void onTakePicture(View view) {
-        javaCameraView.takePicture(this,mRgba,cameraId);
-    }
-
-    public void onClickGrayFilter(View view) {
-        currentFilter = "Gray";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickDarkFilter(View view) {
-        currentFilter = "Dark";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickBrightFilter(View view) {
-        currentFilter = "Bright";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickNormal(View view) {
-        currentFilter = "Normal";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickBinarizationFilter(View view) {
-        currentFilter = "Binarization";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickRedFilter(View view) {
-        currentFilter = "Red";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickGreenFilter(View view) {
-        currentFilter = "Green";
-        mRetainedFragment.setFilter(currentFilter);
-    }
-
-    public void onClickBlueFilter(View view) {
-        currentFilter = "Blue";
-        mRetainedFragment.setFilter(currentFilter);
+        javaCameraView.takePicture(this,currentFilter,redValue,greenValue,blueValue,brightness,cameraId);
     }
 
     public void onClickSettingsActivity(View view){
@@ -186,36 +164,34 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
     }
 
-    public Mat processImage(Mat image){
+    public void onNormalFilterClicked(View view) {
+        currentFilter = "Normal";
+        mRetainedFragment.setFilter(currentFilter);
+    }
 
-        MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),redValue,greenValue,blueValue);
-        MyImageProcessing.gammaCorrection(image.getNativeObjAddr(),image.getNativeObjAddr(),brightness);
-        switch (currentFilter) {
-            case "Gray":
-                break;
-            case "Bright":
-                MyImageProcessing.brightFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
-                break;
-            case "Dark":
-                MyImageProcessing.darkFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
-                break;
-            case "Binarization":
-                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),40,0,40);
-                break;
-            case "Red":
-                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),80,0,0);
-                break;
-            case "Green":
-                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,80,0);
-                break;
-            case "Blue":
-                MyImageProcessing.changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,0,80);
-                break;
-            default:
-                return image;
+    public void onSepiaFilterClicked(View view) {
+        currentFilter = "Sepia";
+        mRetainedFragment.setFilter(currentFilter);
+    }
 
-        }
-        return image;
+    public void onRedFilterClicked(View view) {
+        currentFilter = "Red";
+        mRetainedFragment.setFilter(currentFilter);
+    }
+
+    public void onBlueFilterClicked(View view) {
+        currentFilter = "Blue";
+        mRetainedFragment.setFilter(currentFilter);
+    }
+
+    public void onGreenFilterClicked(View view) {
+        currentFilter = "Green";
+        mRetainedFragment.setFilter(currentFilter);
+    }
+
+    public void onMagentaFilterClicked(View view) {
+        currentFilter = "Magenta";
+        mRetainedFragment.setFilter(currentFilter);
     }
 
     public void onSwapCamera(View view) {
@@ -227,12 +203,26 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     }
 
     public void onFlashlight(View view) {
-        flashlightOn = !flashlightOn;
-        mRetainedFragment.setFlashlightOn(flashlightOn);
-        if(flashlightOn)
-            javaCameraView.turnOnTheFlash();
-        else
-            javaCameraView.turnOffTheFlash();
+        flashMode  = (flashMode + 1)%3; ;
+        mRetainedFragment.setFlashMode(flashMode);
+        setFlashModeImage();
+    }
+
+    private void setFlashModeImage(){
+        flashMode = mRetainedFragment.getFlashMode();
+        ImageButton imageButton = (ImageButton)findViewById(R.id.flashlight);
+        if(flashMode == FLASH_MODE_OFF) {
+            javaCameraView.turnTheFlashOff();
+            imageButton.setImageResource(R.drawable.flash_light_off);
+        }
+        if(flashMode == FLASH_MODE_AUTO) {
+            javaCameraView.turnTheFlashAuto();
+            imageButton.setImageResource(R.drawable.flash_light_auto);
+        }
+        if(flashMode == FLASH_MODE_ON) {
+            javaCameraView.turnTheFlashOn();
+            imageButton.setImageResource(R.drawable.flash_light_on);
+        }
     }
 
 }

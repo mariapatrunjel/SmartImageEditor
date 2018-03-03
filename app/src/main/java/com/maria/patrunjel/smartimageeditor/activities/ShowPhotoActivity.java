@@ -1,21 +1,17 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import com.maria.patrunjel.smartimageeditor.retained.fragments.ImageRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.utils.Photo;
+import com.maria.patrunjel.smartimageeditor.R;
+import com.maria.patrunjel.smartimageeditor.utils.Utils;
 
 public class ShowPhotoActivity extends Activity {
     private Bitmap currentImage;
@@ -26,7 +22,6 @@ public class ShowPhotoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_photo);
-        
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
@@ -53,5 +48,16 @@ public class ShowPhotoActivity extends Activity {
         imgPicture.setImageBitmap(currentImage);
     }
 
+    public void onEditClicked(View view){
+        Photo photo = Photo.getInstance();
+        photo.setImage(currentImage);
 
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void onSaveClicked(View view){
+       Utils.saveImage(this,currentImage);
+        finish();
+    }
 }

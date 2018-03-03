@@ -1,16 +1,16 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.retained.fragments;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
-public class CameraSettingsRetainedFragment extends Fragment
+public class ImageRetainedFragment extends Fragment
 {
     // data object we want to retain
+    private Bitmap image;
     private String filter;
     private Integer redValue,greenValue,blueValue;
     private Float brightness;
-    private int cameraId;
-    private Boolean flashlightOn;
 
     // this method is only called once for this fragment
     @Override
@@ -18,6 +18,14 @@ public class CameraSettingsRetainedFragment extends Fragment
         super.onCreate(savedInstanceState);
         // retain this fragment
         setRetainInstance(true);
+    }
+
+    public Bitmap getImage(){
+        return image;
+    }
+
+    public void setImage(Bitmap image){
+        this.image = image;
     }
 
     public String getFilter() {
@@ -59,22 +67,5 @@ public class CameraSettingsRetainedFragment extends Fragment
     public void setBrightness(Float brightness) {
         this.brightness = brightness;
     }
-
-    public Integer getCameraId() {
-        return cameraId;
-    }
-
-    public void setCameraId(Integer cameraId) {
-        this.cameraId = cameraId;
-    }
-
-    public Boolean getFlashlightOn() {
-        return flashlightOn;
-    }
-
-    public void setFlashlightOn(Boolean flashlightOn) {
-        this.flashlightOn = flashlightOn;
-    }
-
 
 }

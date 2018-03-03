@@ -35,32 +35,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity"
+                  android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".CameraActivity">
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.CameraActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CameraActivity"/>
+                android:value=".activities.CameraActivity"/>
         </activity>
         <activity
-            android:name=".CameraActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.CameraActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.MainActivity"/>
         </activity>
-        <activity android:name=".ShowPhotoActivity"
-                  android:parentActivityName=".CameraActivity">
+        <activity android:name=".activities.ShowPhotoActivity"
+                  android:parentActivityName=".activities.CameraActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CameraActivity"/>
+                android:value=".activities.CameraActivity"/>
         </activity>
     </application>
 

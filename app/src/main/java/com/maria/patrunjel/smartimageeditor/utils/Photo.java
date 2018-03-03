@@ -1,4 +1,4 @@
-package com.maria.patrunjel.smartimageeditor;
+package com.maria.patrunjel.smartimageeditor.utils;
 
 import android.graphics.Bitmap;
 

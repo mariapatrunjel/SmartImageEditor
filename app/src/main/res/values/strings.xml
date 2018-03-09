@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">SmartImageEditor</string>
     <string name="title_activity_sliders">SlidersActivity</string>
+    <string name="imageView">Image View</string>
+    <string name="reset">Reset</string>
+    <string name="gamma_correction">Gamma Correction</string>
+    <string name="b">B</string>
+    <string name="g">G</string>
+    <string name="r">R</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
 </resources>

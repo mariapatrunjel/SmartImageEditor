@@ -18,9 +18,6 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Maria on 06.11.2017.
- */
 
 public class Utils {
 

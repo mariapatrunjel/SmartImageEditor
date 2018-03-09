@@ -14,13 +14,11 @@
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorAccent"
         android:onClick="onSaveClicked"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -44,7 +42,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@android:color/background_light"/>
+        app:srcCompat="@android:color/background_light"
+        android:contentDescription="@null"/>
 
     <Button
         android:id="@+id/editButton"
@@ -56,7 +55,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/colorAccent"
         android:onClick="onEditClicked"
-        android:text="Edit"
+        android:text="@string/edit"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.97"

@@ -4,13 +4,14 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
-public class ImageRetainedFragment extends Fragment
+public class EditViewRetainedFragment extends Fragment
 {
     // data object we want to retain
     private Bitmap image;
     private String filter;
     private Integer redValue,greenValue,blueValue;
     private Float brightness;
+    private String menuView;
 
     // this method is only called once for this fragment
     @Override
@@ -67,5 +68,15 @@ public class ImageRetainedFragment extends Fragment
     public void setBrightness(Float brightness) {
         this.brightness = brightness;
     }
+
+    public String getMenuView(){
+        return menuView;
+    }
+
+    public void setMenuView(String menuView){
+        this.menuView = menuView;
+}
+
+
 
 }

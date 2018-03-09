@@ -8,15 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.maria.patrunjel.smartimageeditor.retained.fragments.ImageRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.retained.fragments.ShowPhotoViewRetainedFragment;
 import com.maria.patrunjel.smartimageeditor.utils.Photo;
 import com.maria.patrunjel.smartimageeditor.R;
 import com.maria.patrunjel.smartimageeditor.utils.Utils;
 
 public class ShowPhotoActivity extends Activity {
     private Bitmap currentImage;
-    private static final String TAG_RETAINED_FRAGMENT = "ImageRetainedFragment";
-    private ImageRetainedFragment mRetainedFragment;
+    private static final String TAG_RETAINED_FRAGMENT = "EditViewRetainedFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +24,12 @@ public class ShowPhotoActivity extends Activity {
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
-        mRetainedFragment = (ImageRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
+        ShowPhotoViewRetainedFragment  mRetainedFragment = ( ShowPhotoViewRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
 
         // create the fragment and data the first time
         if (mRetainedFragment == null) {
             // add the fragment
-            mRetainedFragment = new ImageRetainedFragment();
+            mRetainedFragment = new ShowPhotoViewRetainedFragment();
             fm.beginTransaction().add(mRetainedFragment, TAG_RETAINED_FRAGMENT).commit();
             // load data from a data source or perform any calculation
             mRetainedFragment.setImage(currentImage);

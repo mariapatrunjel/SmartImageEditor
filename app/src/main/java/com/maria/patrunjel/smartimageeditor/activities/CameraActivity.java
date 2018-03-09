@@ -3,17 +3,15 @@ package com.maria.patrunjel.smartimageeditor.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.maria.patrunjel.smartimageeditor.retained.fragments.CameraSettingsRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.retained.fragments.CameraViewRetainedFragment;
 import com.maria.patrunjel.smartimageeditor.utils.MyImageProcessing;
 import com.maria.patrunjel.smartimageeditor.utils.MyJavaCameraView;
 import com.maria.patrunjel.smartimageeditor.R;
-import com.maria.patrunjel.smartimageeditor.utils.Photo;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -38,8 +36,8 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
 
 
-    private static final String TAG_RETAINED_FRAGMENT = "CameraSettingsRetainedFragment";
-    private CameraSettingsRetainedFragment mRetainedFragment;
+    private static final String TAG_RETAINED_FRAGMENT = "CameraViewRetainedFragment";
+    private CameraViewRetainedFragment mRetainedFragment;
 
     BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
         @Override
@@ -64,12 +62,12 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
-        mRetainedFragment = (CameraSettingsRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
+        mRetainedFragment = (CameraViewRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
 
         // create the fragment and data the first time
         if (mRetainedFragment == null) {
             // add the fragment
-            mRetainedFragment = new CameraSettingsRetainedFragment();
+            mRetainedFragment = new CameraViewRetainedFragment();
             fm.beginTransaction().add(mRetainedFragment, TAG_RETAINED_FRAGMENT).commit();
             // load data from a data source or perform any calculation
             mRetainedFragment.setFilter(currentFilter);
@@ -93,6 +91,11 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
         javaCameraView.setCameraIndex(cameraId);
+        ImageButton flashLightButton = (ImageButton) findViewById(R.id.flashlight);
+        if(cameraId == 1)
+            flashLightButton.setVisibility(View.GONE);
+        else
+            flashLightButton.setVisibility(View.VISIBLE);
 
         //setFlashModeImage();
     }
@@ -122,6 +125,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     public void onCameraViewStarted(int width, int height) {
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         setFlashModeImage();
+        javaCameraView.setCameraPictureSize();
     }
 
     @Override
@@ -197,31 +201,38 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     public void onSwapCamera(View view) {
         cameraId = cameraId^1;
         mRetainedFragment.setCameraId(cameraId);
+        ImageButton flashLightButton = (ImageButton) findViewById(R.id.flashlight);
+        if(cameraId == 1)
+            flashLightButton.setVisibility(View.GONE);
+        else
+            flashLightButton.setVisibility(View.VISIBLE);
         javaCameraView.disableView();
         javaCameraView.setCameraIndex(cameraId);
         javaCameraView.enableView();
     }
 
     public void onFlashlight(View view) {
-        flashMode  = (flashMode + 1)%3; ;
+        flashMode  = (flashMode + 1)%3;
         mRetainedFragment.setFlashMode(flashMode);
         setFlashModeImage();
     }
 
     private void setFlashModeImage(){
-        flashMode = mRetainedFragment.getFlashMode();
-        ImageButton imageButton = (ImageButton)findViewById(R.id.flashlight);
-        if(flashMode == FLASH_MODE_OFF) {
-            javaCameraView.turnTheFlashOff();
-            imageButton.setImageResource(R.drawable.flash_light_off);
-        }
-        if(flashMode == FLASH_MODE_AUTO) {
-            javaCameraView.turnTheFlashAuto();
-            imageButton.setImageResource(R.drawable.flash_light_auto);
-        }
-        if(flashMode == FLASH_MODE_ON) {
-            javaCameraView.turnTheFlashOn();
-            imageButton.setImageResource(R.drawable.flash_light_on);
+        if(cameraId == 0) {
+            flashMode = mRetainedFragment.getFlashMode();
+            ImageButton imageButton = (ImageButton) findViewById(R.id.flashlight);
+            if (flashMode == FLASH_MODE_OFF) {
+                javaCameraView.turnTheFlashOff();
+                imageButton.setImageResource(R.drawable.flash_light_off);
+            }
+            if (flashMode == FLASH_MODE_AUTO) {
+                javaCameraView.turnTheFlashAuto();
+                imageButton.setImageResource(R.drawable.flash_light_auto);
+            }
+            if (flashMode == FLASH_MODE_ON) {
+                javaCameraView.turnTheFlashOn();
+                imageButton.setImageResource(R.drawable.flash_light_on);
+            }
         }
     }
 

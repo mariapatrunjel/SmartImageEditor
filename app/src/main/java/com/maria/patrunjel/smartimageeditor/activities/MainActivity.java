@@ -7,11 +7,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.maria.patrunjel.smartimageeditor.retained.fragments.ImageRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.retained.fragments.EditViewRetainedFragment;
 import com.maria.patrunjel.smartimageeditor.utils.MyImageProcessing;
 import com.maria.patrunjel.smartimageeditor.utils.Photo;
 import com.maria.patrunjel.smartimageeditor.R;
@@ -28,13 +30,14 @@ public class MainActivity extends Activity {
 
     private static final int IMAGE_GALLERY_REQUEST = 20;
     private Bitmap currentImage;
+    private String currentView = "Disable";
 
     private String currentFilter = "Normal";
     private Integer redValue=0, greenValue = 0,blueValue = 0;
     private Float brightness = 1.0f;
 
-    private static final String TAG_RETAINED_FRAGMENT = "ImageRetainedFragment";
-    private ImageRetainedFragment mRetainedFragment;
+    private static final String TAG_RETAINED_FRAGMENT = "EditViewRetainedFragment";
+    private EditViewRetainedFragment mRetainedFragment;
 
     static {
         System.loadLibrary("MyOpencvLibs");
@@ -47,17 +50,18 @@ public class MainActivity extends Activity {
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
-        mRetainedFragment = (ImageRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
+        mRetainedFragment = (EditViewRetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
 
         // create the fragment and data the first time
         if (mRetainedFragment == null) {
             // add the fragment
-            mRetainedFragment = new ImageRetainedFragment();
+            mRetainedFragment = new EditViewRetainedFragment();
             fm.beginTransaction().add(mRetainedFragment, TAG_RETAINED_FRAGMENT).commit();
             // load data from a data source or perform any calculation
            setModifiers();
         }
         getModifiers();
+        changeView();
         changePicture();
     }
 
@@ -66,17 +70,6 @@ public class MainActivity extends Activity {
         super.onNewIntent(intent);
         setIntent(intent);//must store the new intent unless getIntent() will return the old one
         processIntentData();
-    }
-
-    private void processIntentData(){
-        Intent intent = getIntent();
-        if(intent!=null){
-            Photo photo = Photo.getInstance();
-            currentImage = photo.getImage();
-            mRetainedFragment.setImage(currentImage);
-        }
-        currentImage = mRetainedFragment.getImage();
-        changePicture();
     }
 
     @Override
@@ -91,6 +84,7 @@ public class MainActivity extends Activity {
                     mRetainedFragment.setImage(currentImage);
                     resetModifiers();
                     changePicture();
+                    changeView();
 
                 }catch(FileNotFoundException e){
                     e.printStackTrace();
@@ -100,6 +94,8 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+
 
     public void onImageGalleryButtonClicked(View view){
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -152,8 +148,48 @@ public class MainActivity extends Activity {
         changePicture();
     }
 
-    private Bitmap getModifiedImage()
-    {
+
+    public void onFiltersViewClicked(View view){
+        currentView = "FiltersView";
+        mRetainedFragment.setMenuView(currentView);
+        changeView();
+    }
+
+    public void onPalletViewClicked(View view){
+        currentView = "PalletView";
+        mRetainedFragment.setMenuView(currentView);
+        changeView();
+    }
+
+    public void onBrightnessViewClicked(View view){
+        currentView = "BrightnessView";
+        mRetainedFragment.setMenuView(currentView);
+        changeView();
+    }
+
+    public void onBackToMainMenuClicked(View view){
+        currentView = "MenuView";
+        mRetainedFragment.setMenuView(currentView);
+        changeView();
+    }
+
+
+
+    private void processIntentData(){
+        Intent intent = getIntent();
+        if(intent!=null){
+            Photo photo = Photo.getInstance();
+            currentImage = photo.getImage();
+            mRetainedFragment.setImage(currentImage);
+            resetModifiers();
+        }
+        currentImage = mRetainedFragment.getImage();
+        changePicture();
+        changeView();
+
+    }
+
+    private Bitmap getModifiedImage() {
         if(currentImage != null) {
             // convert Bitmap to Mat
             Mat mRgba = new Mat();
@@ -186,12 +222,14 @@ public class MainActivity extends Activity {
         greenValue = 0;
         blueValue = 0;
         brightness = 1.0f;
+        currentView = "MenuView";
 
         mRetainedFragment.setFilter(currentFilter);
         mRetainedFragment.setRedValue(redValue);
         mRetainedFragment.setGreenValue(greenValue);
         mRetainedFragment.setBlueValue(blueValue);
         mRetainedFragment.setBrightness(brightness);
+        mRetainedFragment.setMenuView(currentView);
     }
 
     private void setModifiers(){
@@ -201,6 +239,7 @@ public class MainActivity extends Activity {
         mRetainedFragment.setGreenValue(greenValue);
         mRetainedFragment.setBlueValue(blueValue);
         mRetainedFragment.setBrightness(brightness);
+        mRetainedFragment.setMenuView(currentView);
     }
 
     private void getModifiers(){
@@ -210,7 +249,43 @@ public class MainActivity extends Activity {
         greenValue = mRetainedFragment.getGreenValue();
         blueValue = mRetainedFragment.getBlueValue();
         brightness = mRetainedFragment.getBrightness();
+        currentView = mRetainedFragment.getMenuView();
     }
+
+    private void changeView(){
+        currentView = mRetainedFragment.getMenuView();
+
+        HorizontalScrollView menuView = (HorizontalScrollView) findViewById(R.id.menuView);
+        HorizontalScrollView filtersView = (HorizontalScrollView) findViewById(R.id.filtersView);
+        ConstraintLayout palletView = (ConstraintLayout) findViewById(R.id.palletView);
+        ConstraintLayout brightnessView = (ConstraintLayout) findViewById(R.id.brightnessView);
+
+        menuView.setVisibility(View.INVISIBLE);
+        filtersView.setVisibility(View.GONE);
+        palletView.setVisibility(View.GONE);
+        brightnessView.setVisibility(View.GONE);
+
+        switch (currentView) {
+            case "FiltersView":
+                filtersView.setVisibility(View.VISIBLE);
+                break;
+            case "PalletView":
+                palletView.setVisibility(View.VISIBLE);
+                break;
+            case "BrightnessView":
+                brightnessView.setVisibility(View.VISIBLE);
+                break;
+            case "MenuView":
+                menuView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+
+        }
+
+   }
+
+
 }
 
 

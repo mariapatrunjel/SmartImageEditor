@@ -30,7 +30,7 @@
         android:cropToPadding="false"
         android:onClick="onClickSettingsActivity"
         android:scaleType="fitXY"
-        android:src="@drawable/hamburger"
+        android:src="@drawable/settings_activity"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -43,8 +43,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:background="#00000000"
@@ -54,19 +52,16 @@
         android:scaleType="fitXY"
         android:src="@drawable/reverse_camera"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/settingsActivity"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <ImageButton
         android:id="@+id/flashlight"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:background="#00000000"
@@ -76,11 +71,10 @@
         android:scaleType="fitXY"
         android:src="@drawable/flash_light_off"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/swapCamera"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/swapCamera"
+        android:layout_marginStart="8dp"/>
 
     <ImageButton
         android:id="@+id/takePictureButton"
@@ -196,7 +190,7 @@
                 android:cropToPadding="false"
                 android:onClick="onBlueFilterClicked"
                 android:scaleType="fitXY"
-                android:src="@drawable/bluefilter"/>
+                android:src="@drawable/blue_filter"/>
 
             <ImageButton
                 android:id="@+id/magentaFilterButton"

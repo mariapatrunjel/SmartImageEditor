@@ -3,7 +3,7 @@ package com.maria.patrunjel.smartimageeditor.retained.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 
-public class CameraSettingsRetainedFragment extends Fragment
+public class CameraViewRetainedFragment extends Fragment
 {
     // data object we want to retain
     private String filter;

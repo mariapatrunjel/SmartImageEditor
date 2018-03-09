@@ -7,15 +7,19 @@ import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.media.MediaActionSound;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.maria.patrunjel.smartimageeditor.activities.ShowPhotoActivity;
 
 import org.opencv.android.*;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+
+import java.util.List;
 
 
 public class MyJavaCameraView extends JavaCameraView{
+
+    private static final String TAG = "MyJavaCameraView";
 
     public MyJavaCameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,8 +41,24 @@ public class MyJavaCameraView extends JavaCameraView{
         Camera.Parameters params = mCamera.getParameters();
         params.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
         mCamera.setParameters(params);
+
     }
 
+    public void setCameraPictureSize(){
+        Camera.Parameters params = mCamera.getParameters();
+        List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        Log.e(TAG, sizes.toString());
+        // position: variable where you choose between different supported resolutions,
+        // this varies from phone to phone, even the order can be different,
+        // ex. ascending or descending order.
+        int position = sizes.size()-1;
+
+        mFrameWidth = (int) sizes.get(position).width;
+        mFrameHeight = (int) sizes.get(position).height;
+
+        params.setPictureSize(mFrameWidth, mFrameHeight);
+        mCamera.setParameters(params); // mCamera is a Camera object
+    }
     public void takePicture(final Context context, final String currentFilter,final int blueValue,final int greenValue,final int redValue,final float brightness,final Integer cameraId) {
         Camera.PictureCallback callback = new Camera.PictureCallback() {
             @Override

@@ -11,6 +11,8 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maria.patrunjel.smartimageeditor.retained.fragments.EditViewRetainedFragment;
@@ -24,6 +26,7 @@ import org.opencv.core.Mat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Locale;
 
 
 public class MainActivity extends Activity {
@@ -60,7 +63,10 @@ public class MainActivity extends Activity {
             // load data from a data source or perform any calculation
            setModifiers();
         }
+
         getModifiers();
+        changeSeekBars();
+        setSeekBarsListeners();
         changeView();
         changePicture();
     }
@@ -85,6 +91,8 @@ public class MainActivity extends Activity {
                     resetModifiers();
                     changePicture();
                     changeView();
+                    changeSeekBars();
+                    setSeekBarsListeners();
 
                 }catch(FileNotFoundException e){
                     e.printStackTrace();
@@ -94,7 +102,6 @@ public class MainActivity extends Activity {
             }
         }
     }
-
 
 
     public void onImageGalleryButtonClicked(View view){
@@ -124,6 +131,24 @@ public class MainActivity extends Activity {
         changePicture();
     }
 
+    public void onCartoonFilterClicked(View view) {
+        currentFilter = "Cartoon";
+        mRetainedFragment.setFilter(currentFilter);
+        changePicture();
+    }
+
+    public void onSketchFilterClicked(View view) {
+        currentFilter = "Sketch";
+        mRetainedFragment.setFilter(currentFilter);
+        changePicture();
+    }
+
+    public void onCannyFilterClicked(View view) {
+        currentFilter = "Canny";
+        mRetainedFragment.setFilter(currentFilter);
+        changePicture();
+    }
+
     public void onRedFilterClicked(View view) {
         currentFilter = "Red";
         mRetainedFragment.setFilter(currentFilter);
@@ -148,6 +173,13 @@ public class MainActivity extends Activity {
         changePicture();
     }
 
+
+
+    public void onSaveButtonClicked(View view) {
+        com.maria.patrunjel.smartimageeditor.utils.Utils.saveImage(this,getModifiedImage());
+        Toast toast = Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
     public void onFiltersViewClicked(View view){
         currentView = "FiltersView";
@@ -197,7 +229,7 @@ public class MainActivity extends Activity {
             Utils.bitmapToMat(bmp32, mRgba);
 
             //process image
-            MyImageProcessing.processImage(mRgba, currentFilter, blueValue, greenValue, redValue, brightness);
+            MyImageProcessing.processImage(mRgba, currentFilter, redValue, greenValue, blueValue, brightness);
 
             // convert Mat to Bitmap
             Bitmap modifiedImage = (Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888));
@@ -240,6 +272,7 @@ public class MainActivity extends Activity {
         mRetainedFragment.setBlueValue(blueValue);
         mRetainedFragment.setBrightness(brightness);
         mRetainedFragment.setMenuView(currentView);
+
     }
 
     private void getModifiers(){
@@ -285,6 +318,117 @@ public class MainActivity extends Activity {
 
    }
 
+    private void changeSeekBars(){
+       SeekBar redBar = (SeekBar)findViewById(R.id.redBar);
+       SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
+       SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
+       SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
+
+       redBar.setProgress(redValue/10+25);
+       greenBar.setProgress(greenValue/10+25);
+       blueBar.setProgress(blueValue/10+25);
+
+       brightnessBar.setProgress((int)((brightness+0.1)*10));
+
+       TextView red = (TextView)findViewById(R.id.redValue);
+       TextView green = (TextView)findViewById(R.id.greenValue);
+       TextView blue = (TextView)findViewById(R.id.blueValue);
+
+       red.setText(String.format(Locale.ENGLISH,"%d",redValue));
+       green.setText(String.format(Locale.ENGLISH,"%d",greenValue));
+       blue.setText(String.format(Locale.ENGLISH,"%d",blueValue));
+    }
+
+    private void setSeekBarsListeners(){
+
+        SeekBar redBar = (SeekBar)findViewById(R.id.redBar);
+        SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
+        SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
+        SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
+
+        redBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                redValue = (progress - 25)*10;
+                TextView red = (TextView) findViewById(R.id.redValue);
+                red.setText(String.format(Locale.ENGLISH,"%d",redValue));
+                mRetainedFragment.setRedValue(redValue);
+                changePicture();
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        greenBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                greenValue =(progress-25)*10;
+                TextView green = (TextView)findViewById(R.id.greenValue);
+                green.setText(String.format(Locale.ENGLISH,"%d",greenValue));
+                mRetainedFragment.setGreenValue(greenValue);
+                changePicture();
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+
+            }
+        });
+
+        blueBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                blueValue =(progress-25)*10;
+                TextView blue = (TextView)findViewById(R.id.blueValue);
+                blue.setText(String.format(Locale.ENGLISH,"%d",blueValue));
+                mRetainedFragment.setBlueValue(blueValue);
+                changePicture();
+
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        brightnessBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                brightness=(((float) progress)-0.1f)/10;
+                mRetainedFragment.setBrightness(brightness);
+                changePicture();
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+
+            }
+        });
+
+
+    }
 
 }
 

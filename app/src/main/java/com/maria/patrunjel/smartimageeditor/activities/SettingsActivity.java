@@ -92,6 +92,7 @@ public class SettingsActivity extends Activity {
                 redValue = progress - 25;
                 TextView red = (TextView) findViewById(R.id.redValue);
                 red.setText(String.format(Locale.ENGLISH,"%d",redValue*10));
+
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -109,6 +110,7 @@ public class SettingsActivity extends Activity {
                 greenValue =progress-25;
                 TextView green = (TextView)findViewById(R.id.greenValue);
                 green.setText(String.format(Locale.ENGLISH,"%d",greenValue*10));
+
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {

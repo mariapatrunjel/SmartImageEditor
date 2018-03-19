@@ -151,6 +151,34 @@
                 android:src="@drawable/sepia_filter"/>
 
             <ImageButton
+                android:id="@+id/sketchFilterButton"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:adjustViewBounds="true"
+                android:background="#00000000"
+                android:contentDescription="@null"
+                android:cropToPadding="false"
+                android:onClick="onSketchFilterClicked"
+                android:scaleType="fitXY"
+                android:src="@drawable/sketch_filter"/>
+
+            <ImageButton
+                android:id="@+id/cannyFilterButton"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:adjustViewBounds="true"
+                android:background="#00000000"
+                android:contentDescription="@null"
+                android:cropToPadding="false"
+                android:onClick="onCannyFilterClicked"
+                android:scaleType="fitXY"
+                android:src="@drawable/canny_filter"/>
+
+            <ImageButton
                 android:id="@+id/redFilterButton"
                 android:layout_width="60dp"
                 android:layout_height="40dp"

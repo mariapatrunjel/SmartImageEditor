@@ -178,6 +178,16 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         mRetainedFragment.setFilter(currentFilter);
     }
 
+    public void onSketchFilterClicked(View view) {
+        currentFilter = "Sketch";
+        mRetainedFragment.setFilter(currentFilter);
+    }
+
+    public void onCannyFilterClicked(View view) {
+        currentFilter = "Canny";
+        mRetainedFragment.setFilter(currentFilter);
+    }
+
     public void onRedFilterClicked(View view) {
         currentFilter = "Red";
         mRetainedFragment.setFilter(currentFilter);

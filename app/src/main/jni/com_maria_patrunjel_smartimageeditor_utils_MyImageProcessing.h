@@ -2,6 +2,12 @@
 #include <jni.h>
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
+#include "opencv2/photo.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/core.hpp"
+#include <stdlib.h>
+
 using namespace cv;
 using namespace std;
 
@@ -33,6 +39,22 @@ JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImagePr
  * Signature: (JJ)V
  */
 JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_sepiaFilter
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing
+ * Method:    cartoonFilter
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_cartoonFilter
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing
+ * Method:    sketchFilter
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_sketchFilter
   (JNIEnv *, jclass, jlong, jlong);
 
 #ifdef __cplusplus

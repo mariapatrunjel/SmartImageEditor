@@ -1,5 +1,6 @@
 #include "com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing.h"
 
+
 JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_changeRGBChannels
         (JNIEnv *, jclass, jlong addrRgba, jlong addrResultImage,jint red,jint green,jint blue)
 {
@@ -109,4 +110,77 @@ JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImagePr
         }
 
     }
+}
+
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_cartoonFilter
+        (JNIEnv *, jclass, jlong addrRgba, jlong addrResultImage)
+{
+    Mat &src = *(Mat *) addrRgba;
+    Mat &mask = *(Mat *) addrResultImage;
+
+    Mat gray;
+    cvtColor(src,gray,CV_BGR2GRAY);
+    const int MEDIAN_BLUR_FILTER_SIZE = 7;
+    medianBlur(gray,gray,MEDIAN_BLUR_FILTER_SIZE);
+
+    Mat edges;
+    const int LAPLACIAN_FILTER_SIZE = 5;
+    Laplacian(gray,edges,CV_8U,LAPLACIAN_FILTER_SIZE);
+
+    //Mat mask = Mat(dst.size(),CV_8UC3);
+    const int EDGES_THRESHOLD = 80;
+    threshold(edges,mask,EDGES_THRESHOLD,255,THRESH_BINARY_INV);
+
+    /*
+    Size size = src.size();
+    Size smallSize;
+    smallSize.width = size.width/2;
+    smallSize.height = size.height/2;
+
+    Mat smallImg = Mat(smallSize,CV_8UC3);
+    resize(src,smallImg,smallSize,0,0,INTER_LINEAR);
+
+    Mat tmp = Mat(smallSize,CV_8UC3);
+    int repetitions = 7;
+    for(int i=0;i<repetitions;i++){
+        int ksize = 9;
+        double sigmaColor = 9;
+        double sigmaSpace = 7;
+        bilateralFilter(smallImg, tmp,ksize,sigmaColor,sigmaSpace);
+        bilateralFilter(tmp, smallImg, ksize, sigmaColor,sigmaSpace);
+    }
+    Mat bigImg;
+    resize(smallImg,bigImg,size,0,0,INTER_LINEAR);
+
+    */
+    //dst.setTo(0);
+    //mask.copyTo(dst,mask);
+
+
+    /*
+    edgePreservingFilter(src, dst, 1, 60, 0.4f);
+    detailEnhance(src, dst, 10, 0.15f);
+    pencilSketch(src, dst_gray, dst_color, 60, 0.07f, 0.02f);
+    stylization(src, dst, 60, 0.45f);
+     */
+}
+
+JNIEXPORT void JNICALL Java_com_maria_patrunjel_smartimageeditor_utils_MyImageProcessing_sketchFilter
+        (JNIEnv *, jclass, jlong addrRgba, jlong addrResultImage)
+{
+    Mat &src = *(Mat *) addrRgba;
+    Mat &mask = *(Mat *) addrResultImage;
+
+    Mat gray;
+    cvtColor(src, gray, CV_BGR2GRAY);
+    const int MEDIAN_BLUR_FILTER_SIZE = 7;
+    medianBlur(gray, gray, MEDIAN_BLUR_FILTER_SIZE);
+
+    Mat edges;
+    const int LAPLACIAN_FILTER_SIZE = 7;
+    Laplacian(gray, edges, CV_8U, LAPLACIAN_FILTER_SIZE);
+
+    //Mat mask = Mat(dst.size(),CV_8UC3);
+    const int EDGES_THRESHOLD = 100;
+    threshold(edges, mask, EDGES_THRESHOLD, 255, THRESH_BINARY_INV);
 }

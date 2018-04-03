@@ -15,9 +15,6 @@ public class MyImageProcessing {
      private static native void sketchFilter(long addrRgba, long addrResultImage);
 
      public static Mat processImage(Mat image, String currentFilter ,int redValue,int greenValue,int blueValue,float brightness){
-
-          changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),redValue,greenValue,blueValue);
-          gammaCorrection(image.getNativeObjAddr(),image.getNativeObjAddr(),brightness);
           switch (currentFilter) {
                case "Sepia":
                     sepiaFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
@@ -37,18 +34,20 @@ public class MyImageProcessing {
                case "Cartoon":
                    // Mat resultImage = new Mat(image.height(), image.width(), CvType.CV_8UC4);
                     cartoonFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
+                    Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
                     break;
                case "Sketch":
                     sketchFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
+                    Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
                     break;
               case "Canny":
                     Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2GRAY, 4);
                     Imgproc.Canny(image, image, 80, 100);
+                    Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
                     break;
-               default:
-                    return image;
-
           }
+          changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),redValue,greenValue,blueValue);
+          gammaCorrection(image.getNativeObjAddr(),image.getNativeObjAddr(),brightness);
           return image;
      }
 }

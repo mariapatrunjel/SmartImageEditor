@@ -19,7 +19,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toRightOf="@+id/redBar"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -104,7 +104,7 @@
 
     <SeekBar
         android:id="@+id/redBar"
-        android:layout_width="300dp"
+        android:layout_width="290dp"
         android:layout_height="33dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="20dp"
@@ -117,7 +117,7 @@
 
     <SeekBar
         android:id="@+id/greenBar"
-        android:layout_width="300dp"
+        android:layout_width="290dp"
         android:layout_height="33dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
@@ -133,7 +133,7 @@
 
     <SeekBar
         android:id="@+id/blueBar"
-        android:layout_width="300dp"
+        android:layout_width="290dp"
         android:layout_height="33dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
@@ -152,7 +152,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="25dp"
-        android:text="@string/gamma_correction"
+        android:text="@string/brightness"
         android:textColor="@android:color/black"
         app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintLeft_toLeftOf="parent"

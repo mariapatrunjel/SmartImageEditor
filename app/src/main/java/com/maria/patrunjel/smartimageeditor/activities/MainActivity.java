@@ -5,17 +5,23 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maria.patrunjel.smartimageeditor.retained.fragments.EditViewRetainedFragment;
+import com.maria.patrunjel.smartimageeditor.utils.ColorTransform;
+import com.maria.patrunjel.smartimageeditor.utils.Modifier;
+import com.maria.patrunjel.smartimageeditor.utils.ModifiersList;
 import com.maria.patrunjel.smartimageeditor.utils.MyImageProcessing;
 import com.maria.patrunjel.smartimageeditor.utils.Photo;
 import com.maria.patrunjel.smartimageeditor.R;
@@ -42,6 +48,10 @@ public class MainActivity extends Activity {
     private static final String TAG_RETAINED_FRAGMENT = "EditViewRetainedFragment";
     private EditViewRetainedFragment mRetainedFragment;
 
+    private ModifiersList modifierList;
+
+
+
     static {
         System.loadLibrary("MyOpencvLibs");
     }
@@ -50,6 +60,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        modifierList = ModifiersList.getInstance();
 
         // find the retained fragment on activity restarts
         FragmentManager fm = getFragmentManager();
@@ -69,6 +81,13 @@ public class MainActivity extends Activity {
         setSeekBarsListeners();
         changeView();
         changePicture();
+        if(modifierList.isEmpty()) {
+            ImageButton undo = (ImageButton) findViewById(R.id.undo);
+            undo.setVisibility(View.GONE);
+        } else {
+            ImageButton undo = (ImageButton) findViewById(R.id.undo);
+            undo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -89,6 +108,9 @@ public class MainActivity extends Activity {
                     currentImage = BitmapFactory.decodeStream(inputStream);
                     mRetainedFragment.setImage(currentImage);
                     resetModifiers();
+                    modifierList.reset();
+                    ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                    undo.setVisibility(View.GONE);
                     changePicture();
                     changeView();
                     changeSeekBars();
@@ -103,7 +125,7 @@ public class MainActivity extends Activity {
         }
     }
 
-
+    // Selectare poza din galerie
     public void onImageGalleryButtonClicked(View view){
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -113,70 +135,99 @@ public class MainActivity extends Activity {
         startActivityForResult(photoPickerIntent,IMAGE_GALLERY_REQUEST);
     }
 
+    // Deschide camera
     public void onCameraActivityButtonClicked(View view){
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
 
     }
 
+    //Filtrele
     public void onNormalFilterClicked(View view) {
         currentFilter = "Normal";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Normal"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
+
     }
 
     public void onSepiaFilterClicked(View view) {
         currentFilter = "Sepia";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Sepia"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onCartoonFilterClicked(View view) {
         currentFilter = "Cartoon";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Cartoon"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onSketchFilterClicked(View view) {
         currentFilter = "Sketch";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Sketch"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onCannyFilterClicked(View view) {
         currentFilter = "Canny";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Canny"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onRedFilterClicked(View view) {
         currentFilter = "Red";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Red"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onBlueFilterClicked(View view) {
         currentFilter = "Blue";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Blue"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onGreenFilterClicked(View view) {
         currentFilter = "Green";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Green"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
     public void onMagentaFilterClicked(View view) {
         currentFilter = "Magenta";
         mRetainedFragment.setFilter(currentFilter);
+        modifierList.insert(new Modifier("Filter","Magenta"));
+        ImageButton undo = (ImageButton) findViewById(R.id.undo);
+        undo.setVisibility(View.VISIBLE);
         changePicture();
     }
 
-
-
+    // Menu
     public void onSaveButtonClicked(View view) {
-        com.maria.patrunjel.smartimageeditor.utils.Utils.saveImage(this,getModifiedImage());
+        com.maria.patrunjel.smartimageeditor.utils.Utils.saveImage(this,getModifiedImage(currentFilter,redValue,greenValue,blueValue,brightness));
         Toast toast = Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT);
         toast.show();
     }
@@ -206,7 +257,7 @@ public class MainActivity extends Activity {
     }
 
 
-
+    // Proceseaza poza primita de la camera
     private void processIntentData(){
         Intent intent = getIntent();
         if(intent!=null){
@@ -214,6 +265,7 @@ public class MainActivity extends Activity {
             currentImage = photo.getImage();
             mRetainedFragment.setImage(currentImage);
             resetModifiers();
+            modifierList.reset();
         }
         currentImage = mRetainedFragment.getImage();
         changePicture();
@@ -221,33 +273,14 @@ public class MainActivity extends Activity {
 
     }
 
-    private Bitmap getModifiedImage() {
-        if(currentImage != null) {
-            // convert Bitmap to Mat
-            Mat mRgba = new Mat();
-            Bitmap bmp32 = currentImage.copy(Bitmap.Config.ARGB_8888, true);
-            Utils.bitmapToMat(bmp32, mRgba);
-
-            //process image
-            MyImageProcessing.processImage(mRgba, currentFilter, redValue, greenValue, blueValue, brightness);
-
-            // convert Mat to Bitmap
-            Bitmap modifiedImage = (Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888));
-            Utils.matToBitmap(mRgba, modifiedImage);
-
-            return modifiedImage;
-        }
-        return null;
-    }
-
+    // Scimba poza
     private void changePicture(){
-        Bitmap modifiedImage = getModifiedImage();
-        if(modifiedImage != null) {
-            ImageView imgPicture = (ImageView) findViewById(R.id.imageView);
-            imgPicture.setImageBitmap(modifiedImage);
-        }
+        if(currentImage!=null)
+            new ModifyImage().execute(currentFilter,redValue.toString(),greenValue.toString(),blueValue.toString(),brightness.toString());
     }
 
+
+    // Resetarea modificatorilor
     private void resetModifiers(){
         currentFilter = "Normal";
         redValue=0;
@@ -298,6 +331,7 @@ public class MainActivity extends Activity {
         palletView.setVisibility(View.GONE);
         brightnessView.setVisibility(View.GONE);
 
+
         switch (currentView) {
             case "FiltersView":
                 filtersView.setVisibility(View.VISIBLE);
@@ -344,7 +378,7 @@ public class MainActivity extends Activity {
         SeekBar redBar = (SeekBar)findViewById(R.id.redBar);
         SeekBar greenBar = (SeekBar)findViewById(R.id.greenBar);
         SeekBar blueBar = (SeekBar)findViewById(R.id.blueBar);
-        SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
+        final SeekBar brightnessBar = (SeekBar)findViewById(R.id.brightnessBar);
 
         redBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -353,7 +387,7 @@ public class MainActivity extends Activity {
                 TextView red = (TextView) findViewById(R.id.redValue);
                 red.setText(String.format(Locale.ENGLISH,"%d",redValue));
                 mRetainedFragment.setRedValue(redValue);
-                changePicture();
+
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -361,7 +395,10 @@ public class MainActivity extends Activity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+                modifierList.insert(new Modifier("Red",redValue.toString()));
+                ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                undo.setVisibility(View.VISIBLE);
+                changePicture();
             }
         });
 
@@ -372,7 +409,6 @@ public class MainActivity extends Activity {
                 TextView green = (TextView)findViewById(R.id.greenValue);
                 green.setText(String.format(Locale.ENGLISH,"%d",greenValue));
                 mRetainedFragment.setGreenValue(greenValue);
-                changePicture();
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -380,8 +416,10 @@ public class MainActivity extends Activity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-
+                modifierList.insert(new Modifier("Green",greenValue.toString()));
+                ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                undo.setVisibility(View.VISIBLE);
+                changePicture();
 
             }
         });
@@ -393,8 +431,6 @@ public class MainActivity extends Activity {
                 TextView blue = (TextView)findViewById(R.id.blueValue);
                 blue.setText(String.format(Locale.ENGLISH,"%d",blueValue));
                 mRetainedFragment.setBlueValue(blueValue);
-                changePicture();
-
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -402,9 +438,10 @@ public class MainActivity extends Activity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-                // TODO Auto-generated method stub
-
+                modifierList.insert(new Modifier("Blue",blueValue.toString()));
+                ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                undo.setVisibility(View.VISIBLE);
+                changePicture();
             }
         });
 
@@ -413,7 +450,6 @@ public class MainActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 brightness=(((float) progress)-0.1f)/10;
                 mRetainedFragment.setBrightness(brightness);
-                changePicture();
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -421,17 +457,79 @@ public class MainActivity extends Activity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-
-
+                modifierList.insert(new Modifier("Brightness",brightness.toString()));
+                ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                undo.setVisibility(View.VISIBLE);
+                changePicture();
             }
         });
 
 
     }
 
-}
+    //Undo
+    public void onUndoClicked(View view){
+        if(!modifierList.isEmpty()){
+            modifierList.delete();
+            ColorTransform colorTransform = modifierList.getLastColorTransform();
+            currentFilter = colorTransform.getFilter();
+            redValue = colorTransform.getRedValue();
+            greenValue = colorTransform.getGreenValue();
+            blueValue = colorTransform.getBlueValue();
+            brightness = colorTransform.getBrightness();
+            setModifiers();
+            changePicture();
+            changeSeekBars();
 
+            if(modifierList.isEmpty()){
+                ImageButton undo = (ImageButton) findViewById(R.id.undo);
+                undo.setVisibility(View.GONE);
+            }
+
+        }
+    }
+
+    private class ModifyImage extends AsyncTask<String,Integer,Bitmap> {
+        @Override
+        protected Bitmap doInBackground( String... params) {
+            return getModifiedImage(params[0],Integer.parseInt(params[1]),Integer.parseInt(params[2]), Integer.parseInt(params[3]), Float.parseFloat(params[4]));
+        }
+
+        @Override
+        protected void onPreExecute(){
+            ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
+            spinner.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            ImageView imgPicture = (ImageView) findViewById(R.id.imageView);
+            imgPicture.setImageBitmap(result);
+            ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
+            spinner.setVisibility(View.GONE);
+        }
+    }
+
+    private Bitmap getModifiedImage(String currentFilter,int redValue,int greenValue,int blueValue, float brightness) {
+        if(currentImage != null) {
+            // convert Bitmap to Mat
+            Mat mRgba = new Mat();
+            Bitmap bmp32 = currentImage.copy(Bitmap.Config.ARGB_8888, true);
+            Utils.bitmapToMat(bmp32, mRgba);
+
+            //process image
+            MyImageProcessing.processImage(mRgba, currentFilter, redValue, greenValue, blueValue, brightness);
+
+            // convert Mat to Bitmap
+            Bitmap modifiedImage = (Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888));
+            Utils.matToBitmap(mRgba, modifiedImage);
+
+            return modifiedImage;
+        }
+        return null;
+    }
+
+}
 
 
 

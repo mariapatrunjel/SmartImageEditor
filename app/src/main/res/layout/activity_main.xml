@@ -51,7 +51,7 @@
         android:id="@+id/undo"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="53dp"
+        android:layout_marginStart="53dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:background="#00000000"
@@ -253,6 +253,133 @@
                     android:src="@drawable/normal_filter"/>
 
                 <ImageButton
+                    android:id="@+id/newFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onNewFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/new_filter"/>
+
+                <ImageButton
+                    android:id="@+id/hEqYFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onHEqYFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/histogram_y_filter"/>
+
+                <ImageButton
+                    android:id="@+id/hEqCrFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onHEqCrFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/histogram_cr_filter"/>
+
+                <ImageButton
+                    android:id="@+id/hEqSFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onHEqSFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/histogram_s_filter"/>
+
+                <ImageButton
+                    android:id="@+id/hEqVFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onHEqVFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/histogram_v_filter"/>
+
+                <ImageButton
+                    android:id="@+id/pinkFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onPinkFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pink_filter"/>
+
+                <ImageButton
+                    android:id="@+id/hotFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onHotFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/hot_filter"/>
+
+
+                <ImageButton
+                    android:id="@+id/boneFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onBoneFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bone_filter"/>
+
+                <ImageButton
+                    android:id="@+id/newoceanFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onOceanFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ocean_filter"/>
+
+                <ImageButton
                     android:id="@+id/sepiaFilterButton"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
@@ -266,6 +393,19 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/sepia_filter"/>
 
+                <ImageButton
+                    android:id="@+id/cartoonFilterButton"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00000000"
+                    android:contentDescription="@null"
+                    android:cropToPadding="false"
+                    android:onClick="onCartoonFilterClicked"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cartoon_filter"/>
 
                 <ImageButton
                     android:id="@+id/sketchFilterButton"
@@ -294,6 +434,7 @@
                     android:onClick="onCannyFilterClicked"
                     android:scaleType="fitXY"
                     android:src="@drawable/canny_filter"/>
+
                 <ImageButton
                     android:id="@+id/redFilterButton"
                     android:layout_width="60dp"

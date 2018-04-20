@@ -4,6 +4,7 @@ import org.opencv.imgproc.Imgproc;
 
 public class MyImageProcessing {
 
+
      static {
           System.loadLibrary("MyOpencvLibs");
      }
@@ -13,6 +14,13 @@ public class MyImageProcessing {
      private static native void sepiaFilter(long addrRgba, long addrResultImage);
      private static native void cartoonFilter(long addrRgba, long addrResultImage);
      private static native void sketchFilter(long addrRgba, long addrResultImage);
+     private static native void colorMapFilter(long addrRgba, long addrResultImage, int colorMapName);
+     private static native void histogramEqualizationYCbCr(long addrRgba, long addrResultImage, int channel);
+     private static native void histogramEqualizationHSV(long addrRgba, long addrResultImage, int channel);
+     private static native void redTonedFillter(long addrRgba, long addrResultImage, double alpha );
+     private static native void greenTonedFillter(long addrRgba, long addrResultImage, double alpha );
+     private static native void blueTonedFillter(long addrRgba, long addrResultImage, double alpha );
+     private static native void interpolate(long addrRgba, long addrResultImage, double alpha);
 
      public static Mat processImage(Mat image, String currentFilter ,int redValue,int greenValue,int blueValue,float brightness){
           switch (currentFilter) {
@@ -20,19 +28,20 @@ public class MyImageProcessing {
                     sepiaFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
                     break;
                case "Red":
-                    changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),80,0,0);
+                    redTonedFillter(image.getNativeObjAddr(),image.getNativeObjAddr(),8.0f);
                     break;
                case "Green":
-                    changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,80,0);
+                    greenTonedFillter(image.getNativeObjAddr(),image.getNativeObjAddr(),8.0f);
                     break;
                case "Blue":
-                    changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),0,0,80);
+                    blueTonedFillter(image.getNativeObjAddr(),image.getNativeObjAddr(),8.0f);
                     break;
                case "Magenta":
-                    changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),40,0,40);
+                    redTonedFillter(image.getNativeObjAddr(),image.getNativeObjAddr(),8.0f);
+                    blueTonedFillter(image.getNativeObjAddr(),image.getNativeObjAddr(),8.0f);
+                    //changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),40,0,40);
                     break;
                case "Cartoon":
-                   // Mat resultImage = new Mat(image.height(), image.width(), CvType.CV_8UC4);
                     cartoonFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
                     Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
                     break;
@@ -40,10 +49,43 @@ public class MyImageProcessing {
                     sketchFilter(image.getNativeObjAddr(),image.getNativeObjAddr());
                     Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
                     break;
-              case "Canny":
+               case "Canny":
                     Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2GRAY, 4);
                     Imgproc.Canny(image, image, 80, 100);
                     Imgproc.cvtColor(image, image, Imgproc.COLOR_GRAY2RGB, 4);
+                    break;
+               case "Winter":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),0);
+                    break;
+
+               case "Pink":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),1);
+                    break;
+               case "Hot":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),5);
+                    break;
+               case "Bone":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),10);
+                    break;
+               case "Ocean":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),11);
+                    break;
+
+               case "HEqY":
+                    histogramEqualizationYCbCr(image.getNativeObjAddr(), image.getNativeObjAddr(),0);
+                    break;
+               case "HEqCb":
+                    histogramEqualizationYCbCr(image.getNativeObjAddr(), image.getNativeObjAddr(),1);
+                    break;
+               case "HEqS":
+                    histogramEqualizationHSV(image.getNativeObjAddr(),image.getNativeObjAddr(),1);
+                    break;
+               case "HEqV":
+                    histogramEqualizationHSV(image.getNativeObjAddr(),image.getNativeObjAddr(),2);
+                    break;
+               case "New":
+                    interpolate(image.getNativeObjAddr(),image.getNativeObjAddr(),10.0f);
+
                     break;
           }
           changeRGBChannels(image.getNativeObjAddr(),image.getNativeObjAddr(),redValue,greenValue,blueValue);
@@ -51,3 +93,32 @@ public class MyImageProcessing {
           return image;
      }
 }
+
+
+ /*
+               case "Rainbow":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),2);
+                    break;
+               case "Autumn":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),3);
+                    break;
+               case "Jet":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),4);
+                    break;
+               case "Summer":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),6);
+                    break;
+               case "Cool":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),7);
+                    break;
+               case "Spring":
+                    colorMapFilter(image.getNativeObjAddr(), image.getNativeObjAddr(),8);
+                    break;
+               case "HEqCr":
+                    histogramEqualizationYCbCr(image.getNativeObjAddr(), image.getNativeObjAddr(),2);
+                    break;
+               case "HEqH":
+                    histogramEqualizationHSV(image.getNativeObjAddr(),image.getNativeObjAddr(),0);
+                    break;
+
+*/

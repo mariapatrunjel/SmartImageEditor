@@ -154,10 +154,14 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
     }
 
+
+    // Thake Picture
     public void onTakePicture(View view) {
         javaCameraView.takePicture(this,currentFilter,redValue,greenValue,blueValue,brightness,cameraId);
     }
 
+
+    // Settings activity
     public void onClickSettingsActivity(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
         intent.putExtra("red",redValue);
@@ -168,46 +172,88 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
     }
 
+
+    //Filtres
     public void onNormalFilterClicked(View view) {
-        currentFilter = "Normal";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Normal");
     }
 
     public void onSepiaFilterClicked(View view) {
-        currentFilter = "Sepia";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Sepia");
+    }
+
+    public void onCartoonFilterClicked(View view) {
+        changeFilter("Cartoon");
     }
 
     public void onSketchFilterClicked(View view) {
-        currentFilter = "Sketch";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Sketch");
     }
 
     public void onCannyFilterClicked(View view) {
-        currentFilter = "Canny";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Canny");
     }
 
     public void onRedFilterClicked(View view) {
-        currentFilter = "Red";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Red");
     }
 
     public void onBlueFilterClicked(View view) {
-        currentFilter = "Blue";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Blue");
     }
 
     public void onGreenFilterClicked(View view) {
-        currentFilter = "Green";
-        mRetainedFragment.setFilter(currentFilter);
+        changeFilter("Green");
     }
 
     public void onMagentaFilterClicked(View view) {
-        currentFilter = "Magenta";
+        changeFilter("Magenta");
+    }
+
+    public void onPinkFilterClicked(View view) {
+        changeFilter("Pink");
+    }
+
+    public void onHotFilterClicked(View view) {
+        changeFilter("Hot");
+    }
+
+    public void onBoneFilterClicked(View view) {
+        changeFilter("Bone");
+    }
+
+    public void onOceanFilterClicked(View view) {
+        changeFilter("Ocean");
+    }
+
+    public void onHEqYFilterClicked(View view) {
+        changeFilter("HEqY");
+    }
+
+    public void onHEqCrFilterClicked(View view) {
+        changeFilter("HEqCr");
+    }
+
+    public void onHEqSFilterClicked(View view) {
+        changeFilter("HEqS");
+    }
+
+    public void onHEqVFilterClicked(View view) {
+        changeFilter("HEqV");
+    }
+
+    public void onNewFilterClicked(View view) {
+        changeFilter("New");
+    }
+
+    private void changeFilter(String filterName){
+        currentFilter = filterName;
         mRetainedFragment.setFilter(currentFilter);
     }
 
+
+
+    // Swap Camera
     public void onSwapCamera(View view) {
         cameraId = cameraId^1;
         mRetainedFragment.setCameraId(cameraId);
@@ -221,6 +267,8 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         javaCameraView.enableView();
     }
 
+
+    // FlashLight
     public void onFlashlight(View view) {
         flashMode  = (flashMode + 1)%3;
         mRetainedFragment.setFlashMode(flashMode);

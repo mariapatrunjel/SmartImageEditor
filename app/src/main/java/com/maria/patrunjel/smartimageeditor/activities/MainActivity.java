@@ -144,82 +144,81 @@ public class MainActivity extends Activity {
 
     //Filtrele
     public void onNormalFilterClicked(View view) {
-        currentFilter = "Normal";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Normal"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
-
+        changeFilter("Normal");
     }
 
     public void onSepiaFilterClicked(View view) {
-        currentFilter = "Sepia";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Sepia"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Sepia");
     }
 
     public void onCartoonFilterClicked(View view) {
-        currentFilter = "Cartoon";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Cartoon"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Cartoon");
     }
 
     public void onSketchFilterClicked(View view) {
-        currentFilter = "Sketch";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Sketch"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Sketch");
     }
 
     public void onCannyFilterClicked(View view) {
-        currentFilter = "Canny";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Canny"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Canny");
     }
 
     public void onRedFilterClicked(View view) {
-        currentFilter = "Red";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Red"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Red");
     }
 
     public void onBlueFilterClicked(View view) {
-        currentFilter = "Blue";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Blue"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Blue");
     }
 
     public void onGreenFilterClicked(View view) {
-        currentFilter = "Green";
-        mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Green"));
-        ImageButton undo = (ImageButton) findViewById(R.id.undo);
-        undo.setVisibility(View.VISIBLE);
-        changePicture();
+        changeFilter("Green");
     }
 
     public void onMagentaFilterClicked(View view) {
-        currentFilter = "Magenta";
+        changeFilter("Magenta");
+    }
+
+    public void onPinkFilterClicked(View view) {
+        changeFilter("Pink");
+    }
+
+    public void onHotFilterClicked(View view) {
+        changeFilter("Hot");
+    }
+
+    public void onBoneFilterClicked(View view) {
+        changeFilter("Bone");
+    }
+
+    public void onOceanFilterClicked(View view) {
+        changeFilter("Ocean");
+    }
+
+    public void onHEqYFilterClicked(View view) {
+        changeFilter("HEqY");
+    }
+
+    public void onHEqCrFilterClicked(View view) {
+        changeFilter("HEqCr");
+    }
+
+    public void onHEqSFilterClicked(View view) {
+        changeFilter("HEqS");
+    }
+
+    public void onHEqVFilterClicked(View view) {
+        changeFilter("HEqV");
+    }
+
+    public void onNewFilterClicked(View view) {
+        changeFilter("New");
+    }
+
+    private void changeFilter(String filterName){
+        currentFilter = filterName;
         mRetainedFragment.setFilter(currentFilter);
-        modifierList.insert(new Modifier("Filter","Magenta"));
+        modifierList.insert(new Modifier("Filter",filterName));
         ImageButton undo = (ImageButton) findViewById(R.id.undo);
         undo.setVisibility(View.VISIBLE);
         changePicture();
@@ -489,26 +488,26 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class ModifyImage extends AsyncTask<String,Integer,Bitmap> {
-        @Override
-        protected Bitmap doInBackground( String... params) {
-            return getModifiedImage(params[0],Integer.parseInt(params[1]),Integer.parseInt(params[2]), Integer.parseInt(params[3]), Float.parseFloat(params[4]));
-        }
-
-        @Override
-        protected void onPreExecute(){
-            ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
-            spinner.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            ImageView imgPicture = (ImageView) findViewById(R.id.imageView);
-            imgPicture.setImageBitmap(result);
-            ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
-            spinner.setVisibility(View.GONE);
-        }
+   private class ModifyImage extends AsyncTask<String,Integer,Bitmap> {
+    @Override
+    protected Bitmap doInBackground( String... params) {
+        return getModifiedImage(params[0],Integer.parseInt(params[1]),Integer.parseInt(params[2]), Integer.parseInt(params[3]), Float.parseFloat(params[4]));
     }
+
+    @Override
+    protected void onPreExecute(){
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap result) {
+        ImageView imgPicture = (ImageView) findViewById(R.id.imageView);
+        imgPicture.setImageBitmap(result);
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
+    }
+}
 
     private Bitmap getModifiedImage(String currentFilter,int redValue,int greenValue,int blueValue, float brightness) {
         if(currentImage != null) {
@@ -530,20 +529,3 @@ public class MainActivity extends Activity {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
